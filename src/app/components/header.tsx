@@ -15,8 +15,11 @@ export default function Header() {
             </a>
           </div>
           <div className="flex items-center gap-6 max-md:hidden">
-            <button className="text-sm/6 text-gray-950 dark:text-white" href="/docs">
+            <button className="text-sm/6 text-gray-950 dark:text-white" href="/login">
               Login
+            </button>
+            <button className="text-sm/6 text-gray-950 dark:text-white" href="/signup">
+              Sign Up
             </button>
           </div>
         </div>
