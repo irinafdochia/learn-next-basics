@@ -5,14 +5,14 @@ import TaskItem from "../components/taskItem";
 
 
 export interface Task {
-  id: String;
-  label: String;
-  creationDate: String;
-  doneStatus: Boolean;
+  id: number;
+  label: string;
+  creationDate: string;
+  doneStatus: boolean;
 }
 
 export default function Dashboard() {
-  const defaultTasks = [
+  const defaultTasks: Task[] = [
     {
       id: 1,
       label: "Fare la spesa",
@@ -28,6 +28,36 @@ export default function Dashboard() {
   ];
 
   const [tasks, setTasks] = useState<Task[]>(defaultTasks);
+  const [taskInputText, setTaskInputText] = useState<string>("")
+
+  function submitTask() {
+
+    let newTask: Task = {
+      id: Date.now(),
+      label: taskInputText,
+      creationDate: Date.now().toString(),
+      doneStatus: false
+    }
+
+    setTasks([...tasks, newTask])
+  }
+
+  function removeTask(taskId) {
+    let filteredOutTasks = tasks.filter(task => task.id !== taskId)
+
+    setTasks(filteredOutTasks)
+  }
+
+  function changeTaskStatus(event, taskId) {
+    let newStatus = event.target.checked;
+    let updatedTasks = tasks.map((task) => {
+      if (task.id === taskId) {
+        return {...task, doneStatus: newStatus}
+      }
+      return task
+    })
+    setTasks(updatedTasks)
+  }
 
   return (
     <div>
@@ -36,20 +66,20 @@ export default function Dashboard() {
 
         <div className="flex gap-2 mb-4">
           <input
+            value={taskInputText}
+            onChange={e => setTaskInputText(e.target.value)}
             type="text"
             placeholder="Add a new task"
             className="flex-grow border px-3 py-2 rounded"
           />
-          <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+          <button onClick={submitTask} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
             Add
           </button>
         </div>
-
         <ul className="space-y-2">
           {tasks.map((task) => (
-            <TaskItem task={task} key={task.id}/>
+            <TaskItem task={task} key={task.id} removeTask={removeTask} changeTaskStatus={changeTaskStatus}/>
           ))}
-          <button className="text-red-500 hover:underline">Delete</button>
         </ul>
       </div>
     </div>

@@ -1,24 +1,34 @@
 //I tipi vanno importati!! Se più componenti richiamano uno stesso tipo conviene creare uno sheet types.tsx
-import {Task} from "../dashboard/page"
-//{Task} perchè si tratta di un export normale battezzato. 
+import { Task } from "../dashboard/page";
+//{Task} perchè si tratta di un export normale battezzato.
 //Gli export default non possono essere importati con {X}, bensì con X, perché "Because JavaScript modules can export many named things, but only one default thing." Export default dice "la cosa principale di sto file è sta funzione.". Poi ci possono essere n export battezzati.
 
-
 //Qui è type e non interface perchè è una convenzione usare type per i props e interface per gli effettivi tipi.
-type TaskProp = {
-    task: Task;
-}
+//se hai bisogno di passare più props di diverso tipo, semplicemente aggiungili all'interfaccia.
+//per il tipo funzione: arrow func con tipizzazione anche per parametro + return value
+type TaskItemProps = {
+  task: Task;
+  removeTask: (taskId: number) => void;
+  changeTaskStatus: (taskId: number, taskStatus: boolean) => void;
+};
 
-export default function TaskItem({task}: TaskProp) {
+//qui metti il prop tra {} perchè devi destrutturare l'oggetto props che la funzione si prende. Se non lo fai viene fuori {task: {}}
+export default function TaskItem({ task, removeTask, changeTaskStatus }: TaskItemProps) {
   return (
     <div>
       <li className="flex items-center justify-between p-2 border rounded">
         <div className="flex items-center gap-2">
-          <input type="checkbox" />
+          <input type="checkbox" onChange={(e) => {changeTaskStatus(e, task.id)}}/>
           <span>{task.label}</span>
           <span></span>
         </div>
-        <button className="text-red-500 hover:underline">Delete</button>
+        <button
+          onClick={() => {
+            removeTask(task.id);
+          }}
+          className="text-red-500 hover:underline">
+          Delete
+        </button>
       </li>
     </div>
   );
