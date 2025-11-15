@@ -50,6 +50,7 @@ export default function Dashboard() {
 
   function changeTaskStatus(event, taskId) {
     let newStatus = event.target.checked;
+    //il map deve sempre avere un return per ciascun elemento dell'iterazione!!!
     let updatedTasks = tasks.map((task) => {
       if (task.id === taskId) {
         return {...task, doneStatus: newStatus}

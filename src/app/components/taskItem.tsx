@@ -1,4 +1,5 @@
 //I tipi vanno importati!! Se più componenti richiamano uno stesso tipo conviene creare uno sheet types.tsx
+import Link from "next/link";
 import { Task } from "../dashboard/page";
 //{Task} perchè si tratta di un export normale battezzato.
 //Gli export default non possono essere importati con {X}, bensì con X, perché "Because JavaScript modules can export many named things, but only one default thing." Export default dice "la cosa principale di sto file è sta funzione.". Poi ci possono essere n export battezzati.
@@ -12,14 +13,25 @@ type TaskItemProps = {
   changeTaskStatus: (taskId: number, taskStatus: boolean) => void;
 };
 
-//qui metti il prop tra {} perchè devi destrutturare l'oggetto props che la funzione si prende. Se non lo fai viene fuori {task: {}}
-export default function TaskItem({ task, removeTask, changeTaskStatus }: TaskItemProps) {
+//qui metti il prop tra {} perchè devi destrutturare l'oggetto props che la funzione si prende. Se non lo fai viene fuori un prop {task: {}}
+export default function TaskItem({
+  task,
+  removeTask,
+  changeTaskStatus,
+}: TaskItemProps) {
   return (
     <div>
       <li className="flex items-center justify-between p-2 border rounded">
         <div className="flex items-center gap-2">
-          <input type="checkbox" onChange={(e) => {changeTaskStatus(e, task.id)}}/>
-          <span>{task.label}</span>
+          <input
+            type="checkbox"
+            onChange={(e) => {
+              changeTaskStatus(e, task.id);
+            }}
+          />
+          <Link href={"/dashboard/" + task.id}>
+            <span>{task.label}</span>
+          </Link>
           <span></span>
         </div>
         <button
