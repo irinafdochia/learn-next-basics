@@ -42,13 +42,13 @@ export default function Dashboard() {
     setTasks([...tasks, newTask])
   }
 
-  function removeTask(taskId) {
+  function removeTask(taskId: number) {
     let filteredOutTasks = tasks.filter(task => task.id !== taskId)
 
     setTasks(filteredOutTasks)
   }
 
-  function changeTaskStatus(event, taskId) {
+  function changeTaskStatus(event:React.ChangeEvent<HTMLInputElement>, taskId: number) {
     let newStatus = event.target.checked;
     //il map deve sempre avere un return per ciascun elemento dell'iterazione!!!
     let updatedTasks = tasks.map((task) => {

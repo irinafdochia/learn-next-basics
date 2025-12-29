@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-export default function Main() {
+export default function LandingPageBody() {
   return (
     <div className="mt-14 pr-50 pl-50">
       <div className="relative z-20 flex flex-col w-full gap-6 lg:w-1/2 xl:mt-10">
