@@ -1,5 +1,5 @@
-import Header from './components/header.tsx'
-import Main from './components/main.tsx';
+import Header from './components/header'
+import Main from './components/landingPageBody';
 
 export default function Home() {
   return (

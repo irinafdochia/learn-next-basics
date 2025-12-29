@@ -10,7 +10,7 @@ import { Task } from "../dashboard/page";
 type TaskItemProps = {
   task: Task;
   removeTask: (taskId: number) => void;
-  changeTaskStatus: (taskId: number, taskStatus: boolean) => void;
+  changeTaskStatus: (changeEvent: React.ChangeEvent<HTMLInputElement>, taskId: number) => void;
 };
 
 //qui metti il prop tra {} perchè devi destrutturare l'oggetto props che la funzione si prende. Se non lo fai viene fuori un prop {task: {}}
