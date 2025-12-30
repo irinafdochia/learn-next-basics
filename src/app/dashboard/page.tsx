@@ -12,26 +12,27 @@ export interface Task {
 }
 
 export default function Dashboard() {
-  const defaultTasks: Task[] = [
+ /*  const defaultTasks: Task[] = [
     {
       id: 1,
       label: "Fare la spesa",
-      creationDate: "1756492630",
+      creationDate: new Date().toISOString(),
       doneStatus: false,
     },
     {
       id: 2,
       label: "Cucinare",
-      creationDate: "1756492631",
+      creationDate:  new Date().toISOString(),
       doneStatus: true,
     },
-  ];
+  ]; */
 
   const [tasks, setTasks] = useState<Task[]>(defaultTasks);
   const [taskInputText, setTaskInputText] = useState<string>("")
 
   function submitTask() {
 
+    //verrà rimosso con l'uso di prisma push
     let newTask: Task = {
       id: Date.now(),
       label: taskInputText,
