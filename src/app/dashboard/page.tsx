@@ -12,7 +12,7 @@ export interface Task {
 }
 
 export default function Dashboard() {
- /*  const defaultTasks: Task[] = [
+  const defaultTasks: Task[] = [
     {
       id: 1,
       label: "Fare la spesa",
@@ -25,8 +25,9 @@ export default function Dashboard() {
       creationDate:  new Date().toISOString(),
       doneStatus: true,
     },
-  ]; */
+  ];
 
+  //const defaultTasks = fetch("/api/tasks").then(data => console.log("DATI:", data.json()))
   const [tasks, setTasks] = useState<Task[]>(defaultTasks);
   const [taskInputText, setTaskInputText] = useState<string>("")
 

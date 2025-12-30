@@ -1,0 +1,17 @@
+generator client {
+  provider               = "prisma-client"
+  output                 = "../generated/prisma"
+  generatedFileExtension = "ts"
+  importFileExtension    = "ts"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Task {
+  id           Int      @id @default(autoincrement())
+  label        String
+  creationDate DateTime @default(now())
+  doneStatus   Boolean  @default(false)
+}

@@ -42,5 +42,5 @@ next-env.d.ts
 
 #prettier config
 .prettierrc
-/prisma
+/prisma/migrations
 /generated
