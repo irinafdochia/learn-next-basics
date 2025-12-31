@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TaskItem from "../components/taskItem";
 
 
@@ -12,27 +12,18 @@ export interface Task {
 }
 
 export default function Dashboard() {
-  const defaultTasks: Task[] = [
-    {
-      id: 1,
-      label: "Fare la spesa",
-      creationDate: new Date().toISOString(),
-      doneStatus: false,
-    },
-    {
-      id: 2,
-      label: "Cucinare",
-      creationDate:  new Date().toISOString(),
-      doneStatus: true,
-    },
-  ];
-
-  //const defaultTasks = fetch("/api/tasks").then(data => console.log("DATI:", data.json()))
-  const [tasks, setTasks] = useState<Task[]>(defaultTasks);
   const [taskInputText, setTaskInputText] = useState<string>("")
+  const [tasks, setTasks] = useState<Task[]>([]);
+  
+  useEffect(() => {
+    fetch("/api/tasks").then(res => res.json()).then((data) => {
+      setTasks(data)
+      console.log("DATI:", data)
+    })
+  }, [])
+  
 
   function submitTask() {
-
     //verrà rimosso con l'uso di prisma push
     let newTask: Task = {
       id: Date.now(),
