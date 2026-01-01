@@ -17,3 +17,17 @@ export async function submitTask(tsk: Task) {
 
    return task
 }
+
+export async function removeTask(tskId: number) {
+    const task = await prisma.task.delete({
+        where: {
+            id: tskId
+        }
+    })
+
+    console.log("[PRISMA] Deleting task with id:", task)
+
+    return task
+}
+
+//TODO: Flush all tasks?

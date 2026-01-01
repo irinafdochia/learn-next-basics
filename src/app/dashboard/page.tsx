@@ -45,14 +45,23 @@ export default function Dashboard() {
     }
 
     if (res.status === "500") {
-      //TODO: handle error UI
+      //TODO: handle error
     }
   }
 
-  function removeTask(taskId: number) {
-    let filteredOutTasks = tasks.filter(task => task.id !== taskId)
+  async function removeTask(taskId: number) {
+    const options = {
+      method: "DELETE",
+      body: JSON.stringify({id: taskId})
+    }
+    const res = await fetch("/api/tasks", options);
 
-    setTasks(filteredOutTasks)
+    if (res.status == "204") {
+      let filteredOutTasks = tasks.filter(task => task.id !== taskId)
+      setTasks(filteredOutTasks)
+    } else {
+      //TODO: handle error
+    }
   }
 
   function changeTaskStatus(event: React.ChangeEvent<HTMLInputElement>, taskId: number) {
