@@ -14,25 +14,39 @@ export interface Task {
 export default function Dashboard() {
   const [taskInputText, setTaskInputText] = useState<string>("")
   const [tasks, setTasks] = useState<Task[]>([]);
-  
+
   useEffect(() => {
     fetch("/api/tasks").then(res => res.json()).then((data) => {
       setTasks(data)
-      console.log("DATI:", data)
+      // console.log("DATI:", data)
     })
   }, [])
-  
 
-  function submitTask() {
-    //verrà rimosso con l'uso di prisma push
+
+  async function submitTask() {
     let newTask: Task = {
-      id: Date.now(),
       label: taskInputText,
-      creationDate: Date.now().toString(),
       doneStatus: false
     }
 
-    setTasks([...tasks, newTask])
+    const options = {
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newTask)
+    }
+
+    const res = await fetch("/api/tasks", options)
+    
+    if (res.status == "201") {
+      setTasks([...tasks, newTask])
+    }
+
+    if (res.status === "500") {
+      //TODO: handle error UI
+    }
   }
 
   function removeTask(taskId: number) {
@@ -41,12 +55,12 @@ export default function Dashboard() {
     setTasks(filteredOutTasks)
   }
 
-  function changeTaskStatus(event:React.ChangeEvent<HTMLInputElement>, taskId: number) {
+  function changeTaskStatus(event: React.ChangeEvent<HTMLInputElement>, taskId: number) {
     let newStatus = event.target.checked;
     //il map deve sempre avere un return per ciascun elemento dell'iterazione!!!
     let updatedTasks = tasks.map((task) => {
       if (task.id === taskId) {
-        return {...task, doneStatus: newStatus}
+        return { ...task, doneStatus: newStatus }
       }
       return task
     })
@@ -72,7 +86,7 @@ export default function Dashboard() {
         </div>
         <ul className="space-y-2">
           {tasks.map((task) => (
-            <TaskItem task={task} key={task.id} removeTask={removeTask} changeTaskStatus={changeTaskStatus}/>
+            <TaskItem task={task} key={task.id} removeTask={removeTask} changeTaskStatus={changeTaskStatus} />
           ))}
         </ul>
       </div>

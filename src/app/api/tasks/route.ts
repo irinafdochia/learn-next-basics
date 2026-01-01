@@ -1,9 +1,29 @@
-import { getAllTasks } from "../../../../lib/taskData"
+import { getAllTasks } from "@/lib/taskData"
+import { submitTask } from "@/lib/taskData"
 
 export async function GET() {
     const tasks = await getAllTasks()
+    console.log("[GET] Entered get request")
     //Qui stiamo wrappando l'array risultante e trasformandolo in un formato erogabile in HTTP con Header text/json!!
     //Prende il JSON in entrata e lo mette nel body, poi setta l'header text/json
     //Le API devono rispondere con una response!! 
     return Response.json(tasks)
+ }
+
+ export async function POST(request: Request) {
+    try {
+        const newTask = await request.json()
+
+        console.log("[POST] request entered:", newTask)
+
+        const newSubmittedTask = await submitTask(newTask)
+
+        if (newSubmittedTask) {
+            return new Response(null, {status: 201})
+        }
+
+    } catch (error) {
+        console.log("[Error]:", error)
+        return new Response("Something went wrong", { status: 500 })
+    }
  }
