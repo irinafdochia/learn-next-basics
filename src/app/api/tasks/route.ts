@@ -9,38 +9,35 @@ export async function GET() {
     //Prende il JSON in entrata e lo mette nel body, poi setta l'header text/json
     //Le API devono rispondere con una response!! 
     return Response.json(tasks)
- }
+}
 
 export async function POST(request: Request) {
     try {
-        const newTask = await request.json()
+        const data = await request.json()
 
-        console.log("[POST] request entered:", newTask)
+        console.log("[POST] request entered:", data)
 
-        const newSubmittedTask = await submitTask(newTask)
+        const newSubmittedTask = await submitTask(data)
 
-        if (newSubmittedTask) {
-            return new Response(null, {status: 201})
-        }
-
+        return Response.json(newSubmittedTask, { status: 201 })
     } catch (error) {
         console.log("[Error]:", error)
-        return new Response("Something went wrong", { status: 500 })
+        return new Response.json("Something went wrong", { status: 500 })
     }
- }
+}
 
 export async function DELETE(request: Request) {
     try {
         const req = await request.json()
         const taskId = req.id
-    
-        console.log("[DELETE] Task id: ", taskId)
+
+        console.log("[DELETE] Task id: ", taskId, req)
         const rmvTask = await removeTask(taskId)
-    
+
         if (rmvTask) {
-            return new Response(null, {status: 204})
+            return new Response(null, { status: 204 })
         }
     } catch (error) {
-        return new Response("Something went wrong", {status: 500})
+        return new Response.json("Something went wrong", { status: 500 })
     }
 }

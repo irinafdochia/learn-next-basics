@@ -28,7 +28,6 @@ export default function Dashboard() {
       label: taskInputText,
       doneStatus: false
     }
-
     const options = {
       method: "POST",
       headers: {
@@ -38,11 +37,15 @@ export default function Dashboard() {
       body: JSON.stringify(newTask)
     }
 
-    const res = await fetch("/api/tasks", options)
-    
-    if (res.status == "201") {
-      setTasks([...tasks, newTask])
+    let res = await fetch("/api/tasks", options)
+
+    if (!res.ok) {
+      //handle UI
+      return
     }
+
+    const data = await res.json()
+    setTasks([...tasks, data])
 
     if (res.status === "500") {
       //TODO: handle error

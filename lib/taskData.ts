@@ -19,13 +19,12 @@ export async function submitTask(tsk: Task) {
 }
 
 export async function removeTask(tskId: number) {
+    console.log("[PRISMA] Deleting task with id:", tskId)
     const task = await prisma.task.delete({
         where: {
             id: tskId
         }
     })
-
-    console.log("[PRISMA] Deleting task with id:", task)
 
     return task
 }
